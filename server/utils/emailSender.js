@@ -1,17 +1,15 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
-
 dotenv.config();
 
 // CREATE TRANSPORTER
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: process.env.EMAIL_HOST,      // smtp.gmail.com
+  port: process.env.EMAIL_PORT,      // 465
+  secure: process.env.EMAIL_SECURE === "true", 
   auth: {
-    user: process.env.EMAIL_USER, // must be full email
-    pass: process.env.EMAIL_PASS, // must be 16-char App Password
-  },
-  tls: {
-    rejectUnauthorized: false, // fix some Gmail TLS blocks
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
 });
 
@@ -28,10 +26,10 @@ transporter.verify((error, success) => {
 export const sendFormEmail = async ({ subject, html }) => {
   try {
     const info = await transporter.sendMail({
-      from: `"Rahat Digital's" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_TO,
-      subject,
-      html,
+    from: `"Rahat Digital's" <${process.env.EMAIL_USER}>`,
+    to: process.env.EMAIL_TO,
+    subject,
+    html,
     });
 
     console.log("📨 Email Sent:", info.response);
