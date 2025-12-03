@@ -1,39 +1,33 @@
-import nodemailer from "nodemailer";
+import Brevo from "@getbrevo/brevo";
 import dotenv from "dotenv";
+
 dotenv.config();
 
-// CREATE TRANSPORTER
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST,      // smtp.gmail.com
-  port: process.env.EMAIL_PORT,      // 465
-  secure: process.env.EMAIL_SECURE === "true", 
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+// INIT BREVO CLIENT
+const brevo = new Brevo.TransactionalEmailsApi();
+brevo.setApiKey(
+  Brevo.TransactionalEmailsApiApiKeys.apiKey,
+  process.env.BREVO_API_KEY
+);
 
-// VERIFY TRANSPORTER
-transporter.verify((error, success) => {
-  if (error) {
-    console.error("❌ EMAIL TRANSPORTER ERROR:", error);
-  } else {
-    console.log("📨 Email transporter is ready to send messages");
-  }
-});
-
-// SEND EMAIL
+// SEND EMAIL USING BREVO API
 export const sendFormEmail = async ({ subject, html }) => {
   try {
-    const info = await transporter.sendMail({
-    from: `"Rahat Digital's" <${process.env.EMAIL_USER}>`,
-    to: process.env.EMAIL_TO,
-    subject,
-    html,
-    });
+    const emailData = {
+      sender: { 
+        name: "Rahat Digital's", 
+        email: process.env.SENDER_EMAIL   // sender identity
+      },
+      to: [{ 
+        email: process.env.RECEIVER_EMAIL // where form emails should go
+      }],
+      subject,
+      htmlContent: html,
+    };
 
-    console.log("📨 Email Sent:", info.response);
+    const response = await brevo.sendTransacEmail(emailData);
+    console.log("📨 Email Sent Successfully:", response.messageId);
   } catch (err) {
-    console.error("❌ EMAIL SEND ERROR:", err);
+    console.error("❌ BREVO EMAIL API ERROR:", err);
   }
 };
