@@ -1,0 +1,131 @@
+/* MAIN NAVBAR */
+.navbar {
+  width: 100%;
+  padding: 15px 20px;     /* FIX: smaller padding */
+  background: linear-gradient(135deg, #0048ff, #0099ff);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;  /* FIX: prevent overflow */
+}
+
+/* LOGO */
+.nav-left h2 {
+  font-size: 20px;        /* FIX: slightly smaller */
+  margin: 0;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* NAV LINKS (DESKTOP) */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 25px;              /* FIX: reduce gap */
+}
+
+.nav-right a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.nav-right a:hover {
+  color: #ffeb3b;
+}
+
+/* CONTACT BUTTON */
+.contact-btn {
+  background: white;
+  color: #0048ff !important;
+  padding: 8px 14px;       /* FIX: smaller size */
+  border-radius: 6px;
+  font-weight: 600;
+  white-space: nowrap;     /* FIX: prevent text wrap */
+}
+
+.contact-btn:hover {
+  background: #ffeb3b;
+  color: black !important;
+}
+
+/* HAMBURGER ICON */
+.hamburger {
+  display: none;
+  width: 28px;            /* FIX: smaller width */
+  height: 20px;           /* FIX: smaller height */
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.bar {
+  height: 3px;            /* FIX: thinner bars */
+  width: 100%;
+  background: white;
+  border-radius: 4px;
+  transition: 0.3s;
+}
+
+/* OPEN ANIMATION */
+.bar1.open {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.bar2.open {
+  opacity: 0;
+}
+
+.bar3.open {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* ----------------------------- */
+/* MOBILE RESPONSIVE NAVIGATION */
+/* ----------------------------- */
+@media (max-width: 900px) {
+
+  .hamburger {
+    display: flex;
+  }
+
+  /* HIDE DESKTOP MENU */
+  .nav-right {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 70%;
+    max-width: 260px;      /* FIX: smaller drawer */
+    height: 100vh;
+    background: #ffffff;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 80px 25px;
+    gap: 25px;
+    transition: right 0.4s ease;
+    box-shadow: -4px 0 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .nav-right.show {
+    right: 0;
+  }
+
+  /* MOBILE MENU ITEMS */
+  .nav-right a {
+    color: #0048ff;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .contact-btn {
+    background: #0048ff;
+    color: white !important;
+    padding: 10px 18px;
+  }
+}

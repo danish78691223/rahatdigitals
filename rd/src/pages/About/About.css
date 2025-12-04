@@ -1,0 +1,162 @@
+.about-page {
+  background: #f6f9ff;
+  padding-bottom: 60px;
+}
+
+/* HERO BANNER */
+.about-hero {
+  width: 100%;
+  height: 45vh;
+  background: url("../../assets/images/rahatdigitals.jpg")
+    center/cover no-repeat;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.about-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 45, 120, 0.6);
+}
+
+.about-hero h1,
+.about-hero p {
+  position: relative;
+  z-index: 2;
+  color: white;
+  text-align: center;
+}
+
+.about-hero h1 {
+  font-size: 42px;
+  font-weight: 800;
+}
+
+.about-hero p {
+  font-size: 20px;
+  margin-top: 8px;
+}
+
+/* ABOUT SECTION */
+.about-section {
+  display: flex;
+  gap: 40px;
+  padding: 60px 40px;
+  align-items: center;
+}
+
+.about-left h2 {
+  font-size: 32px;
+  color: #00308f;
+}
+
+.about-left p {
+  margin: 15px 0;
+  line-height: 1.7;
+  color: #444;
+  font-size: 17px;
+}
+
+.about-right img {
+  width: 100%;
+  max-width: 550px;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* MISSION & VISION */
+.mission-vision {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 35px;
+  padding: 20px 40px;
+  margin-top: 30px;
+}
+
+.mv-box {
+  background: white;
+  padding: 25px;
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
+}
+
+.mv-box h3 {
+  font-size: 22px;
+  color: #00308f;
+}
+
+.mv-box p {
+  margin-top: 12px;
+  font-size: 16px;
+  color: #555;
+}
+
+/* WHY CHOOSE US */
+.why-choose {
+  padding: 60px 40px;
+  text-align: center;
+}
+
+.why-choose h2 {
+  font-size: 34px;
+  font-weight: 800;
+  margin-bottom: 40px;
+  color: #00308f;
+}
+
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 25px;
+}
+
+.why-card {
+  background: white;
+  padding: 25px;
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+}
+
+.why-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+}
+
+.why-card span {
+  font-size: 40px;
+}
+
+.why-card h3 {
+  margin-top: 10px;
+  font-size: 20px;
+  color: #00308f;
+}
+
+.why-card p {
+  margin-top: 10px;
+  color: #555;
+  font-size: 15px;
+}
+
+/* RESPONSIVE FIXES */
+@media (max-width: 900px) {
+  .about-section {
+    flex-direction: column;
+    padding: 40px 20px;
+  }
+  
+  .about-right img {
+    max-width: 100%;
+  }
+
+  .about-hero h1 {
+    font-size: 32px;
+  }
+}

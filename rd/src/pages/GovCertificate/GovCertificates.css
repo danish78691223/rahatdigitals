@@ -1,0 +1,65 @@
+.service-page {
+  padding: 60px 40px;
+  background: #f6f9ff;
+  min-height: 100vh;
+}
+
+.service-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.service-header h1 {
+  font-size: 34px;
+  font-weight: 800;
+  color: #002970;
+}
+
+.service-header p {
+  font-size: 18px;
+  color: #555;
+}
+
+.cert-box {
+  background: white;
+  padding: 25px;
+  margin: auto;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.cert-box h2 {
+  color: #00308f;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.cert-box ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.cert-box li {
+  background: #f6f9ff;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+.cert-btn {
+  width: 100%;
+  padding: 12px;
+  background: #0048ff;
+  color: white;
+  font-size: 18px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.cert-btn:hover {
+  background: #0036c6;
+}
