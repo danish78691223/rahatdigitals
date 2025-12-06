@@ -41,7 +41,7 @@ const Footer = () => {
           <h3>Contact Us</h3>
           <p>📌 Address: Rahat Digital's Service Center</p>
           <p>📞 Phone: +91 9511749510</p>
-          <p>📧 Email: support@rahatdigitals.com</p>
+          <p>📧 Email: rahatdigitals@gmail.com</p>
         </div>
 
       </div>

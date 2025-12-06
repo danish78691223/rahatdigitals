@@ -7,6 +7,7 @@ const TABS = [
   { label: "Voter ID", type: "VOTER" },
   { label: "Passport", type: "PASSPORT" },
   { label: "Job Forms", type: "JOB" },
+  { label: "Contact Messages", type: "CONTACT" }, // NEW TAB
 ];
 
 const AdminDashboard = () => {
@@ -14,14 +15,23 @@ const AdminDashboard = () => {
   const [forms, setForms] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // 🟢 useCallback prevents Netlify ESLint CI build warning
+  // 🟢 useCallback prevents Netlify build errors
   const fetchForms = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await API.get(`/admin/forms?type=${activeType}`);
+
+      let res;
+
+      // NEW → Fetch Contact Messages
+      if (activeType === "CONTACT") {
+        res = await API.get("/admin/contact");
+      } else {
+        res = await API.get(`/admin/forms?type=${activeType}`);
+      }
+
       setForms(res.data);
     } catch (err) {
-      console.error("❌ Error fetching forms:", err);
+      console.error("❌ Error fetching data:", err);
     } finally {
       setLoading(false);
     }
@@ -29,11 +39,16 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     fetchForms();
-  }, [fetchForms]); // 🟢 FIXED dependency warning
+  }, [fetchForms]);
 
   const updateStatus = async (id, status) => {
     try {
-      await API.patch(`/admin/forms/${id}/status`, { status });
+      if (activeType === "CONTACT") {
+        await API.patch(`/admin/contact/${id}/status`, { status });
+      } else {
+        await API.patch(`/admin/forms/${id}/status`, { status });
+      }
+
       fetchForms();
     } catch (err) {
       console.error("❌ Update status error:", err);
@@ -44,7 +59,12 @@ const AdminDashboard = () => {
     if (!window.confirm("Delete this submission?")) return;
 
     try {
-      await API.delete(`/admin/forms/${id}`);
+      if (activeType === "CONTACT") {
+        await API.delete(`/admin/contact/${id}`);
+      } else {
+        await API.delete(`/admin/forms/${id}`);
+      }
+
       fetchForms();
     } catch (err) {
       console.error("❌ Delete error:", err);
@@ -53,6 +73,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="admin-layout">
+      {/* Sidebar */}
       <aside className="admin-sidebar">
         <h2>Admin Panel</h2>
 
@@ -67,6 +88,7 @@ const AdminDashboard = () => {
         ))}
       </aside>
 
+      {/* Main Content */}
       <main className="admin-main">
         <h2>{TABS.find((t) => t.type === activeType)?.label} Submissions</h2>
 
@@ -89,10 +111,22 @@ const AdminDashboard = () => {
               {forms.map((f) => (
                 <tr key={f._id}>
                   <td>{new Date(f.createdAt).toLocaleString()}</td>
+
                   <td>
-                    <pre>{JSON.stringify(f.data, null, 2)}</pre>
+                    {/* Show contact messages differently */}
+                    {activeType === "CONTACT" ? (
+                      <div>
+                        <b>Name:</b> {f.name} <br />
+                        <b>Email:</b> {f.email} <br />
+                        <b>Phone:</b> {f.phone} <br />
+                        <b>Message:</b> {f.message}
+                      </div>
+                    ) : (
+                      <pre>{JSON.stringify(f.data, null, 2)}</pre>
+                    )}
                   </td>
-                  <td>{f.status}</td>
+
+                  <td>{f.status || "new"}</td>
 
                   <td>
                     <button onClick={() => updateStatus(f._id, "processed")}>

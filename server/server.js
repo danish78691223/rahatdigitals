@@ -5,6 +5,9 @@ import formsRoutes from "./routes/formsRoutes.js";
 import adminAuthRoutes from "./routes/adminAuthRoutes.js";
 import adminFormsRoutes from "./routes/adminFormsRoutes.js";
 import { connectDB } from "./db.js";
+import contactRoutes from "./routes/contactRoutes.js";
+import adminContactRoutes from "./routes/adminContactRoutes.js";
+
 
 dotenv.config();
 
@@ -29,6 +32,9 @@ app.use(
 app.use("/api/forms", formsRoutes);
 app.use("/api/admin/auth", adminAuthRoutes);
 app.use("/api/admin/forms", adminFormsRoutes);
+app.use("/api/contact", contactRoutes);
+app.use("/api/admin/contact", adminContactRoutes);
+
 
 app.get("/", (req, res) => {
   res.send("Rahat Digital's API is running");
