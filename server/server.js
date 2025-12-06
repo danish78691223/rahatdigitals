@@ -12,20 +12,29 @@ const app = express();
 connectDB();
 
 app.use(express.json());
+
+// ✅ CORS FIX FOR NETLIFY + CUSTOM DOMAIN
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    origin: [
+      "https://rahatdigitals.in",       // your actual website
+      "http://localhost:3000"           // local testing
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
   })
 );
 
-app.use("/api/forms", formsRoutes);          // public forms
-app.use("/api/admin/auth", adminAuthRoutes); // login/register
-app.use("/api/admin/forms", adminFormsRoutes); // protected admin forms
+// ROUTES
+app.use("/api/forms", formsRoutes);
+app.use("/api/admin/auth", adminAuthRoutes);
+app.use("/api/admin/forms", adminFormsRoutes);
 
 app.get("/", (req, res) => {
   res.send("Rahat Digital's API is running");
 });
 
+// START SERVER
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () =>
   console.log(`🚀 Server running on http://localhost:${PORT}`)
