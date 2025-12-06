@@ -48,8 +48,26 @@ const Footer = () => {
 
       {/* Bottom Bar */}
       <div className="footer-bottom">
-        <p>© {new Date().getFullYear()} Rahat Digital's — All Rights Reserved.</p>
-      </div>
+      <p>© {new Date().getFullYear()} Rahat Digital's — All Rights Reserved.</p>
+
+    <a
+      href="/admin/login"
+      className="admin-btn"
+      style={{
+      marginLeft: "10px",
+      padding: "5px 12px",
+      background: "#fff",
+      color: "#000",
+      borderRadius: "6px",
+      fontSize: "14px",
+      textDecoration: "none",
+      border: "1px solid #ccc"
+    }}
+    >
+      Admin
+    </a>
+  </div>
+
 
     </footer>
   );

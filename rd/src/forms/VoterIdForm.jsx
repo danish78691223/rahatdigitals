@@ -30,15 +30,15 @@ const VoterIdForm = () => {
     setErrors({});
     setLoading(true);
 
-    // 🔥 Send to Netlify Function
-    const response = await fetch("/.netlify/functions/sendMail", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        formType: "Voter ID Form",
-        ...fields,
-      }),
-    });
+    const response = await fetch(
+  "https://rahatdigitals-backend.onrender.com/api/forms/voter-id",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(fields),
+  }
+);
+
 
     const data = await response.json();
     setLoading(false);

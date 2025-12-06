@@ -31,14 +31,15 @@ const PassportForm = () => {
     setErrors({});
     setLoading(true);
 
-    const response = await fetch("/.netlify/functions/sendMail", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        formType: "Passport Application",
-        ...fields,
-      }),
-    });
+    const response = await fetch(
+  "https://rahatdigitals-backend.onrender.com/api/forms/passport",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(fields),
+  }
+);
+
 
     const data = await response.json();
     setLoading(false);

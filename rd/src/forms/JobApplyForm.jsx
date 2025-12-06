@@ -31,15 +31,15 @@ const JobApplyForm = () => {
     setErrors({});
     setLoading(true);
 
-    // 🔥 Send via Netlify
-    const response = await fetch("/.netlify/functions/sendMail", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        formType: "Job Application Form",
-        ...fields,
-      }),
-    });
+   const response = await fetch(
+  "https://rahatdigitals-backend.onrender.com/api/forms/job",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(fields),
+  }
+);
+
 
     const data = await response.json();
     setLoading(false);

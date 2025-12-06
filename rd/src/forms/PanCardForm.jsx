@@ -33,14 +33,15 @@ const PanCardForm = () => {
     setLoading(true);
 
     // 🔥 Netlify function
-    const response = await fetch("/.netlify/functions/sendMail", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        formType: "PAN Card Application",
-        ...fields,
-      }),
-    });
+    const response = await fetch(
+  "https://rahatdigitals-backend.onrender.com/api/forms/pan-card",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(fields),
+  }
+);
+
 
     const data = await response.json();
     setLoading(false);
