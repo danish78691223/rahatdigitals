@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import API from "../../api/axios";
 import "./Admin.css";
 
@@ -14,7 +14,8 @@ const AdminDashboard = () => {
   const [forms, setForms] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const fetchForms = async () => {
+  // 🟢 useCallback prevents Netlify ESLint CI build warning
+  const fetchForms = useCallback(async () => {
     try {
       setLoading(true);
       const res = await API.get(`/admin/forms?type=${activeType}`);
@@ -24,11 +25,11 @@ const AdminDashboard = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [activeType]);
 
   useEffect(() => {
     fetchForms();
-  }, [activeType]);
+  }, [fetchForms]); // 🟢 FIXED dependency warning
 
   const updateStatus = async (id, status) => {
     try {
