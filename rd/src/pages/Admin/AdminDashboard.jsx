@@ -20,7 +20,7 @@ const AdminDashboard = () => {
       const res = await API.get(`/admin/forms?type=${activeType}`);
       setForms(res.data);
     } catch (err) {
-      console.error("Error fetching forms:", err);
+      console.error("❌ Error fetching forms:", err);
     } finally {
       setLoading(false);
     }
@@ -28,7 +28,6 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     fetchForms();
-    // eslint-disable-next-line
   }, [activeType]);
 
   const updateStatus = async (id, status) => {
@@ -36,17 +35,18 @@ const AdminDashboard = () => {
       await API.patch(`/admin/forms/${id}/status`, { status });
       fetchForms();
     } catch (err) {
-      console.error("Status update error:", err);
+      console.error("❌ Update status error:", err);
     }
   };
 
   const deleteForm = async (id) => {
     if (!window.confirm("Delete this submission?")) return;
+
     try {
       await API.delete(`/admin/forms/${id}`);
       fetchForms();
     } catch (err) {
-      console.error("Delete error:", err);
+      console.error("❌ Delete error:", err);
     }
   };
 
@@ -54,12 +54,11 @@ const AdminDashboard = () => {
     <div className="admin-layout">
       <aside className="admin-sidebar">
         <h2>Admin Panel</h2>
+
         {TABS.map((tab) => (
           <button
             key={tab.type}
-            className={
-              activeType === tab.type ? "sidebar-btn active" : "sidebar-btn"
-            }
+            className={activeType === tab.type ? "sidebar-btn active" : "sidebar-btn"}
             onClick={() => setActiveType(tab.type)}
           >
             {tab.label}
@@ -84,6 +83,7 @@ const AdminDashboard = () => {
                 <th>Actions</th>
               </tr>
             </thead>
+
             <tbody>
               {forms.map((f) => (
                 <tr key={f._id}>
@@ -92,16 +92,13 @@ const AdminDashboard = () => {
                     <pre>{JSON.stringify(f.data, null, 2)}</pre>
                   </td>
                   <td>{f.status}</td>
+
                   <td>
-                    <button
-                      onClick={() => updateStatus(f._id, "processed")}
-                    >
+                    <button onClick={() => updateStatus(f._id, "processed")}>
                       Mark Processed
                     </button>
-                    <button
-                      className="danger"
-                      onClick={() => deleteForm(f._id)}
-                    >
+
+                    <button className="danger" onClick={() => deleteForm(f._id)}>
                       Delete
                     </button>
                   </td>

@@ -16,14 +16,14 @@ const AdminLogin = () => {
 
     try {
       const res = await API.post("/admin/auth/login", form);
+
       localStorage.setItem("authToken", res.data.token);
       localStorage.setItem("adminInfo", JSON.stringify(res.data.admin));
+
       window.location.href = "/admin/dashboard";
     } catch (err) {
-      console.error(err);
-      setError(
-        err?.response?.data?.message || "Login failed. Please try again."
-      );
+      console.error("❌ Login Error:", err);
+      setError(err?.response?.data?.message || "Login failed. Try again.");
     }
   };
 
@@ -39,6 +39,7 @@ const AdminLogin = () => {
           value={form.email}
           onChange={handleChange}
         />
+
         <input
           type="password"
           name="password"
@@ -46,6 +47,7 @@ const AdminLogin = () => {
           value={form.password}
           onChange={handleChange}
         />
+
         {error && <p className="error">{error}</p>}
 
         <button type="submit">Login</button>

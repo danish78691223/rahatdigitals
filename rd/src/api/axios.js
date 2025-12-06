@@ -1,24 +1,22 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://rahatdigitals-backend.onrender.com/api",
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// Optional: Add auth token (if login system exists)
+// Add token (admin authentication)
 API.interceptors.request.use((config) => {
   const token = localStorage.getItem("authToken");
-
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
-
   return config;
 });
 
-// Debugging: Log all requests (helps during development)
+// Debug Log
 API.interceptors.request.use((config) => {
   console.log("📤 API Request:", config.method.toUpperCase(), config.url, config.data);
   return config;

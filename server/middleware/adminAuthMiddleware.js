@@ -4,10 +4,7 @@ import AdminUser from "../models/AdminUser.js";
 export const protectAdmin = async (req, res, next) => {
   let token = null;
 
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
+  if (req.headers.authorization?.startsWith("Bearer")) {
     token = req.headers.authorization.split(" ")[1];
   }
 
@@ -18,9 +15,9 @@ export const protectAdmin = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.admin = await AdminUser.findById(decoded.id).select("-password");
-    if (!req.admin) {
-      return res.status(401).json({ message: "Admin not found" });
-    }
+
+    if (!req.admin) return res.status(401).json({ message: "Admin not found" });
+
     next();
   } catch (err) {
     return res.status(401).json({ message: "Token not valid" });
