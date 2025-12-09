@@ -7,7 +7,7 @@ import adminFormsRoutes from "./routes/adminFormsRoutes.js";
 import { connectDB } from "./db.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import adminContactRoutes from "./routes/adminContactRoutes.js";
-import productRoutes from "./src/routes/productRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
 
 
 
