@@ -16,11 +16,21 @@ const AdminDashboard = () => {
   const [forms, setForms] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Modal for View/Edit
   const [showModal, setShowModal] = useState(false);
   const [selectedForm, setSelectedForm] = useState(null);
 
-  // Product Form State
+  // ⭐ CATEGORY LIST
+  const categoriesList = [
+    "Electronics",
+    "Fashion",
+    "Home",
+    "Mobile",
+    "Computer",
+    "Accessories",
+    "Other",
+  ];
+
+  // ⭐ PRODUCT INPUT STATE
   const [product, setProduct] = useState({
     title: "",
     price: "",
@@ -29,12 +39,12 @@ const AdminDashboard = () => {
     link: "",
   });
 
-  // Fetch Forms or Products
+  // Fetch Forms / Products
   const fetchForms = useCallback(async () => {
     try {
       setLoading(true);
-      let res;
 
+      let res;
       if (activeType === "CONTACT") {
         res = await API.get("/admin/contact");
       } else if (activeType === "PRODUCTS") {
@@ -55,7 +65,7 @@ const AdminDashboard = () => {
     fetchForms();
   }, [fetchForms]);
 
-  // Add Product Handler
+  // ⭐ ADD PRODUCT
   const addProduct = async (e) => {
     e.preventDefault();
 
@@ -95,7 +105,7 @@ const AdminDashboard = () => {
     }
   };
 
-  // Delete Handler
+  // Delete
   const deleteForm = async (id) => {
     if (!window.confirm("Delete this entry?")) return;
 
@@ -114,7 +124,7 @@ const AdminDashboard = () => {
     }
   };
 
-  // Render general forms
+  // Render Fields
   const renderData = (form) => {
     if (activeType === "PRODUCTS") {
       return (
@@ -122,7 +132,9 @@ const AdminDashboard = () => {
           <b>{form.title}</b> <br />
           ₹ {form.price} <br />
           Category: {form.category} <br />
-          <a href={form.link} target="_blank">Amazon Link</a>
+          <a href={form.link} target="_blank" rel="noopener noreferrer">
+            Amazon Link
+          </a>
         </div>
       );
     }
@@ -188,7 +200,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="admin-layout">
-      {/* Sidebar */}
+      {/* SIDEBAR */}
       <aside className="admin-sidebar">
         <h2>Admin Panel</h2>
 
@@ -203,11 +215,11 @@ const AdminDashboard = () => {
         ))}
       </aside>
 
-      {/* Main */}
+      {/* MAIN */}
       <main className="admin-main">
         <h2>{TABS.find((t) => t.type === activeType)?.label}</h2>
 
-        {/* PRODUCT ADD FORM */}
+        {/* ---------------------- PRODUCT FORM ---------------------- */}
         {activeType === "PRODUCTS" && (
           <div className="product-form-box">
             <h3>Add New Product</h3>
@@ -237,13 +249,21 @@ const AdminDashboard = () => {
                 required
               />
 
-              <input
-                type="text"
-                placeholder="Category"
+              {/* ⭐ CATEGORY DROPDOWN */}
+              <select
                 value={product.category}
-                onChange={(e) => setProduct({ ...product, category: e.target.value })}
+                onChange={(e) =>
+                  setProduct({ ...product, category: e.target.value })
+                }
                 required
-              />
+              >
+                <option value="">Select Category</option>
+                {categoriesList.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
+                ))}
+              </select>
 
               <input
                 type="text"
@@ -312,7 +332,7 @@ const AdminDashboard = () => {
           </div>
         )}
 
-        {/* ---------------------- GENERAL FORMS (PAN, JOB, ETC.) ---------------------- */}
+        {/* ---------------------- NON-PRODUCT FORMS ---------------------- */}
         {activeType !== "PRODUCTS" &&
           (loading ? (
             <p>Loading...</p>
@@ -363,11 +383,10 @@ const AdminDashboard = () => {
           ))}
       </main>
 
-      {/* ---------------------- EDIT PRODUCT MODAL ---------------------- */}
+      {/* ---------------------- PRODUCT EDIT MODAL ---------------------- */}
       {showModal && selectedForm && activeType === "PRODUCTS" && (
         <div className="modal-overlay">
           <div className="modal-box">
-
             <h3>Edit Product</h3>
 
             <input
@@ -394,13 +413,22 @@ const AdminDashboard = () => {
               }
             />
 
-            <input
-              type="text"
+            {/* ⭐ CATEGORY DROPDOWN FOR EDIT */}
+            <select
               value={selectedForm.category}
               onChange={(e) =>
-                setSelectedForm({ ...selectedForm, category: e.target.value })
+                setSelectedForm({
+                  ...selectedForm,
+                  category: e.target.value,
+                })
               }
-            />
+            >
+              {categoriesList.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
 
             <input
               type="text"
@@ -413,11 +441,7 @@ const AdminDashboard = () => {
             <button
               onClick={async () => {
                 try {
-                  await API.put(
-                    `/admin/products/${selectedForm._id}`,
-                    selectedForm
-                  );
-
+                  await API.put(`/admin/products/${selectedForm._id}`, selectedForm);
                   alert("Product Updated!");
                   setShowModal(false);
                   fetchForms();
