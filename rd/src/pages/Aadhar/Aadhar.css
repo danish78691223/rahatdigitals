@@ -1,9 +1,11 @@
+/* ---------- PAGE LAYOUT ---------- */
 .service-page {
   padding: 60px 40px;
   background: #f6f9ff;
   min-height: 100vh;
 }
 
+/* ---------- HEADER SECTION ---------- */
 .service-header {
   text-align: center;
   margin-bottom: 40px;
@@ -16,41 +18,62 @@
 }
 
 .service-header p {
-  font-size: 18px;
-  color: #555;
+  font-size: 17px;
+  color: #444;
+  margin-bottom: 12px;
+  line-height: 1.6;
 }
 
-.aadhar-box {
+.service-header h3,
+.service-header h2 {
+  margin-top: 15px;
+  color: #00308f;
+  font-weight: 700;
+}
+
+/* ---------- CONTACT FORM BOX ---------- */
+.aadhar-form-box {
   background: white;
   padding: 25px;
   margin: auto;
   width: 100%;
-  max-width: 500px;
+  max-width: 520px;
   border-radius: 14px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
-.aadhar-box h2 {
-  color: #00308f;
+.aadhar-form-box h2 {
   text-align: center;
+  color: #00308f;
   margin-bottom: 20px;
+  font-weight: 700;
 }
 
-.aadhar-box ul {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 20px;
+/* ---------- FORM ---------- */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
-.aadhar-box li {
-  background: #f6f9ff;
+.contact-form input,
+.contact-form textarea {
   padding: 12px;
-  margin-bottom: 10px;
-  border-radius: 8px;
+  border-radius: 10px;
+  border: 1px solid #ccd5ff;
   font-size: 16px;
+  background: #f9fbff;
+  transition: 0.2s ease-in-out;
 }
 
-.aadhar-btn {
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #0048ff;
+  box-shadow: 0 0 5px rgba(0, 72, 255, 0.3);
+  outline: none;
+}
+
+.contact-form button {
   width: 100%;
   padding: 12px;
   background: #0048ff;
@@ -59,8 +82,32 @@
   border-radius: 10px;
   border: none;
   cursor: pointer;
+  transition: 0.2s;
 }
 
-.aadhar-btn:hover {
+.contact-form button:hover {
   background: #0036c6;
+}
+
+/* Success message */
+.contact-form p {
+  text-align: center;
+  font-size: 16px;
+  color: green;
+  font-weight: 600;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 600px) {
+  .service-page {
+    padding: 40px 20px;
+  }
+
+  .service-header h1 {
+    font-size: 28px;
+  }
+
+  .aadhar-form-box {
+    padding: 20px;
+  }
 }

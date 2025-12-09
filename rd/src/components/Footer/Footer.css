@@ -64,3 +64,13 @@
     padding: 40px 20px 15px;
   }
 }
+
+
+.clickable-footer {
+  cursor: pointer;
+}
+
+.clickable-footer p:hover {
+  color: #ffeb3b;
+  transition: 0.2s ease-in-out;
+}

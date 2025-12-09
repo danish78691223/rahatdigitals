@@ -14,9 +14,10 @@ import VoterId from "./pages/VoterId/VoterId";
 import Passport from "./pages/Passport/Passport";
 import Aadhar from "./pages/Aadhar/Aadhar";
 import GovCertificates from "./pages/GovCertificate/GovCertificates";
+import Shop from "./pages/Shop/Shop";     // ⭐ NEW SHOP PAGE IMPORT
+
 import AdminLogin from "./pages/Admin/AdminLogin";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
-
 
 function App() {
   return (
@@ -24,10 +25,14 @@ function App() {
       <Navbar />
 
       <Routes>
+        {/* Main Pages */}
         <Route path="/" element={<Home />} />
         <Route path="/services" element={<Services />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+
+        {/* ⭐ Shop Page */}
+        <Route path="/shop" element={<Shop />} />
 
         {/* Service Pages */}
         <Route path="/apply-pan-card" element={<PanCard />} />
@@ -36,6 +41,8 @@ function App() {
         <Route path="/passport-application" element={<Passport />} />
         <Route path="/aadhar-services" element={<Aadhar />} />
         <Route path="/government-certificates" element={<GovCertificates />} />
+
+        {/* Admin Routes */}
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
       </Routes>

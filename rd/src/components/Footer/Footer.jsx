@@ -43,31 +43,17 @@ const Footer = () => {
           <p>📞 Phone: +91 9511749510</p>
           <p>📧 Email: rahatdigitals@gmail.com</p>
         </div>
-
       </div>
 
       {/* Bottom Bar */}
-      <div className="footer-bottom">
-      <p>© {new Date().getFullYear()} Rahat Digital's — All Rights Reserved.</p>
-
-    <a
-      href="/admin/login"
-      className="admin-btn"
-      style={{
-      marginLeft: "10px",
-      padding: "5px 12px",
-      background: "#fff",
-      color: "#000",
-      borderRadius: "6px",
-      fontSize: "14px",
-      textDecoration: "none",
-      border: "1px solid #ccc"
-    }}
-    >
-      Admin
-    </a>
-  </div>
-
+      <div 
+        className="footer-bottom clickable-footer"
+        onClick={() => (window.location.href = "/admin/login")}
+      >
+        <p>
+          © {new Date().getFullYear()} Rahat Digital's — All Rights Reserved.
+        </p>
+      </div>
 
     </footer>
   );

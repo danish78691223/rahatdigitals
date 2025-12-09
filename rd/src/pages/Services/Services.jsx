@@ -7,37 +7,37 @@ const Services = () => {
 
   const servicesList = [
     {
-      title: "PAN Card Apply / Update",
+      title: "PAN Card Apply / Update Inquiry",
       desc: "Apply for a new PAN card or update existing information.",
       icon: "📇",
       link: "/apply-pan-card",
     },
     {
-      title: "Passport Services",
+      title: "Passport Services Inquiry",
       desc: "Passport application, renewal, and correction support.",
       icon: "🛂",
       link: "/passport-application",
     },
     {
-      title: "Voter ID Registration",
+      title: "Voter ID Apply / Update Inquiry",
       desc: "Create new Voter ID or update address/details.",
       icon: "🗳️",
       link: "/voter-id",
     },
     {
-      title: "Job Application Forms",
+      title: "Job Application Forms Inquiry",
       desc: "Government and private job form filling assistance.",
       icon: "📄",
       link: "/job-application",
     },
     {
-      title: "Aadhar Related Services",
+      title: "Aadhar Related Services Inquiry",
       desc: "Support for Aadhar updates, corrections, and downloads.",
       icon: "🆔",
       link: "/aadhar-services",
     },
     {
-      title: "Government Certificates",
+      title: "Government Certificates Inquiry",
       desc: "Income, Caste, Domicile and other certificate form services.",
       icon: "📑",
       link: "/government-certificates",

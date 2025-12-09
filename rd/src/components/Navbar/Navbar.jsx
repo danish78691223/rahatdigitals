@@ -23,9 +23,17 @@ const Navbar = () => {
       <div className={open ? "nav-right show" : "nav-right"}>
         <a href="/" onClick={() => setOpen(false)}>Home</a>
         <a href="/services" onClick={() => setOpen(false)}>Services</a>
+
+        {/* ⭐ NEW SHOP BUTTON */}
+        <a href="/shop" onClick={() => setOpen(false)}>Shop</a>
+
         <a href="/about" onClick={() => setOpen(false)}>About</a>
-        <a href="/contact" onClick={() => setOpen(false)} className="contact-btn">Contact</a>
+
+        <a href="/contact" onClick={() => setOpen(false)} className="contact-btn">
+          Contact
+        </a>
       </div>
+
     </nav>
   );
 };

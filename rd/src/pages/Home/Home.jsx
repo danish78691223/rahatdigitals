@@ -33,7 +33,7 @@ const Home = () => {
           <ServiceCard 
             title="Passport Services"
             desc="Passport forms, updates and applications."
-            link="/passport-services"
+            link="/passport-application"
           />
 
           <ServiceCard 

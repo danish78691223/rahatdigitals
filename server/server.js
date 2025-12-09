@@ -7,6 +7,8 @@ import adminFormsRoutes from "./routes/adminFormsRoutes.js";
 import { connectDB } from "./db.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import adminContactRoutes from "./routes/adminContactRoutes.js";
+import productRoutes from "./src/routes/productRoutes.js";
+
 
 
 dotenv.config();
@@ -37,6 +39,8 @@ app.use("/api/admin/auth", adminAuthRoutes);
 app.use("/api/admin/forms", adminFormsRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/admin/contact", adminContactRoutes);
+app.use("/api/admin/products", productRoutes);
+
 
 
 app.get("/", (req, res) => {
