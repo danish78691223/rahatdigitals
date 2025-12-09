@@ -13,8 +13,9 @@ const Contact = () => {
   const [success, setSuccess] = useState("");
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.placeholder.toLowerCase().replace(" ", "")]: e.target.value });
-  };
+  setForm({ ...form, [e.target.name]: e.target.value });
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -85,6 +86,7 @@ const Contact = () => {
 
           <input
             type="text"
+            name="name"
             placeholder="Name"
             value={form.name}
             onChange={handleChange}
@@ -93,6 +95,7 @@ const Contact = () => {
 
           <input
             type="email"
+            name="email"
             placeholder="Email"
             value={form.email}
             onChange={handleChange}
@@ -101,6 +104,7 @@ const Contact = () => {
 
           <input
             type="text"
+            name="phone"
             placeholder="Phone"
             value={form.phone}
             onChange={handleChange}
@@ -108,12 +112,14 @@ const Contact = () => {
           />
 
           <textarea
+            name="message"
             placeholder="Your Message"
             rows="5"
             value={form.message}
             onChange={handleChange}
             required
           ></textarea>
+
 
           <button type="submit">{loading ? "Sending..." : "Send Message"}</button>
 

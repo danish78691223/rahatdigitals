@@ -7,7 +7,7 @@ const TABS = [
   { label: "Voter ID", type: "VOTER" },
   { label: "Passport", type: "PASSPORT" },
   { label: "Job Forms", type: "JOB" },
-  { label: "Contact Messages", type: "CONTACT" }, // NEW TAB
+  { label: "Contact Messages", type: "CONTACT" },
 ];
 
 const AdminDashboard = () => {
@@ -15,14 +15,17 @@ const AdminDashboard = () => {
   const [forms, setForms] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // 🟢 useCallback prevents Netlify build errors
+  // Modal
+  const [showModal, setShowModal] = useState(false);
+  const [selectedForm, setSelectedForm] = useState(null);
+
+  // 🔵 Fetch Forms
   const fetchForms = useCallback(async () => {
     try {
       setLoading(true);
 
       let res;
 
-      // NEW → Fetch Contact Messages
       if (activeType === "CONTACT") {
         res = await API.get("/admin/contact");
       } else {
@@ -41,12 +44,15 @@ const AdminDashboard = () => {
     fetchForms();
   }, [fetchForms]);
 
+  // 🔵 Update Status
   const updateStatus = async (id, status) => {
     try {
+      const body = { status: status };
+
       if (activeType === "CONTACT") {
-        await API.patch(`/admin/contact/${id}/status`, { status });
+        await API.patch(`/admin/contact/${id}/status`, body);
       } else {
-        await API.patch(`/admin/forms/${id}/status`, { status });
+        await API.patch(`/admin/forms/${id}/status`, body);
       }
 
       fetchForms();
@@ -55,6 +61,7 @@ const AdminDashboard = () => {
     }
   };
 
+  // 🔵 Delete
   const deleteForm = async (id) => {
     if (!window.confirm("Delete this submission?")) return;
 
@@ -69,6 +76,67 @@ const AdminDashboard = () => {
     } catch (err) {
       console.error("❌ Delete error:", err);
     }
+  };
+
+  // 🔵 Format Data Per Form Type
+  const renderData = (form) => {
+    if (activeType === "CONTACT") {
+      return (
+        <div>
+          <b>Name:</b> {form.name} <br />
+          <b>Email:</b> {form.email} <br />
+          <b>Phone:</b> {form.phone} <br />
+          <b>Message:</b> {form.message}
+        </div>
+      );
+    }
+
+    if (activeType === "JOB") {
+      return (
+        <div>
+          <b>Full Name:</b> {form.data.fullName} <br />
+          <b>Email:</b> {form.data.email} <br />
+          <b>Phone:</b> {form.data.phone} <br />
+          <b>Qualification:</b> {form.data.qualification} <br />
+          <b>Job Type:</b> {form.data.jobType}
+        </div>
+      );
+    }
+
+    if (activeType === "PAN") {
+      return (
+        <div>
+          <b>Name:</b> {form.data.name} <br />
+          <b>DOB:</b> {form.data.dob} <br />
+          <b>Phone:</b> {form.data.phone} <br />
+          <b>Address:</b> {form.data.address}
+        </div>
+      );
+    }
+
+    if (activeType === "VOTER") {
+      return (
+        <div>
+          <b>Name:</b> {form.data.name} <br />
+          <b>Father Name:</b> {form.data.fatherName} <br />
+          <b>DOB:</b> {form.data.dob} <br />
+          <b>Address:</b> {form.data.address}
+        </div>
+      );
+    }
+
+    if (activeType === "PASSPORT") {
+      return (
+        <div>
+          <b>Name:</b> {form.data.name} <br />
+          <b>DOB:</b> {form.data.dob} <br />
+          <b>Phone:</b> {form.data.phone} <br />
+          <b>Passport Type:</b> {form.data.passportType}
+        </div>
+      );
+    }
+
+    return <pre>{JSON.stringify(form.data, null, 2)}</pre>;
   };
 
   return (
@@ -112,23 +180,24 @@ const AdminDashboard = () => {
                 <tr key={f._id}>
                   <td>{new Date(f.createdAt).toLocaleString()}</td>
 
+                  <td>{renderData(f)}</td>
+
                   <td>
-                    {/* Show contact messages differently */}
-                    {activeType === "CONTACT" ? (
-                      <div>
-                        <b>Name:</b> {f.name} <br />
-                        <b>Email:</b> {f.email} <br />
-                        <b>Phone:</b> {f.phone} <br />
-                        <b>Message:</b> {f.message}
-                      </div>
-                    ) : (
-                      <pre>{JSON.stringify(f.data, null, 2)}</pre>
-                    )}
+                    <span
+                      style={{
+                        color: f.status === "processed" ? "green" : "orange",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {f.status || "new"}
+                    </span>
                   </td>
 
-                  <td>{f.status || "new"}</td>
-
                   <td>
+                    <button onClick={() => setSelectedForm(f) || setShowModal(true)}>
+                      View Details
+                    </button>
+
                     <button onClick={() => updateStatus(f._id, "processed")}>
                       Mark Processed
                     </button>
@@ -143,6 +212,23 @@ const AdminDashboard = () => {
           </table>
         )}
       </main>
+
+      {/* 🔵 MODAL POPUP */}
+      {showModal && selectedForm && (
+        <div className="modal-overlay">
+          <div className="modal-box">
+            <h3>Submission Details</h3>
+
+            <p><b>Submitted:</b> {new Date(selectedForm.createdAt).toLocaleString()}</p>
+
+            <div className="modal-content">
+              {renderData(selectedForm)}
+            </div>
+
+            <button onClick={() => setShowModal(false)}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

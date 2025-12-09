@@ -20,13 +20,16 @@ app.use(express.json());
 app.use(
   cors({
     origin: [
-      "https://rahatdigitals.in",       // your actual website
-      "http://localhost:3000"           // local testing
+      "http://localhost:3000",
+      "https://rahatdigitals.in",
+      "https://rahatdigitals.netlify.app"
     ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
+app.options("*", cors());
 
 // ROUTES
 app.use("/api/forms", formsRoutes);
