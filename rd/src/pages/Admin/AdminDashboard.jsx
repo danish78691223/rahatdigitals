@@ -8,7 +8,7 @@ const TABS = [
   { label: "Passport", type: "PASSPORT" },
   { label: "Job Forms", type: "JOB" },
   { label: "Contact Messages", type: "CONTACT" },
-  { label: "Add Products", type: "PRODUCTS" }, // ⭐ NEW TAB
+  { label: "Add Products", type: "PRODUCTS" },
 ];
 
 const AdminDashboard = () => {
@@ -16,11 +16,11 @@ const AdminDashboard = () => {
   const [forms, setForms] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Modal
+  // Modal for View/Edit
   const [showModal, setShowModal] = useState(false);
   const [selectedForm, setSelectedForm] = useState(null);
 
-  // ⭐ Product Form State
+  // Product Form State
   const [product, setProduct] = useState({
     title: "",
     price: "",
@@ -29,17 +29,16 @@ const AdminDashboard = () => {
     link: "",
   });
 
-  // ⭐ Fetch Forms OR Products
+  // Fetch Forms or Products
   const fetchForms = useCallback(async () => {
     try {
       setLoading(true);
-
       let res;
 
       if (activeType === "CONTACT") {
         res = await API.get("/admin/contact");
       } else if (activeType === "PRODUCTS") {
-        res = await API.get("/admin/products"); // ⭐ Fetch products
+        res = await API.get("/admin/products");
       } else {
         res = await API.get(`/admin/forms?type=${activeType}`);
       }
@@ -56,7 +55,7 @@ const AdminDashboard = () => {
     fetchForms();
   }, [fetchForms]);
 
-  // ⭐ Add Product Submit Handler
+  // Add Product Handler
   const addProduct = async (e) => {
     e.preventDefault();
 
@@ -82,7 +81,7 @@ const AdminDashboard = () => {
   // Update Status
   const updateStatus = async (id, status) => {
     try {
-      const body = { status: status };
+      const body = { status };
 
       if (activeType === "CONTACT") {
         await API.patch(`/admin/contact/${id}/status`, body);
@@ -96,15 +95,15 @@ const AdminDashboard = () => {
     }
   };
 
-  // Delete
+  // Delete Handler
   const deleteForm = async (id) => {
     if (!window.confirm("Delete this entry?")) return;
 
     try {
-      if (activeType === "CONTACT") {
-        await API.delete(`/admin/contact/${id}`);
-      } else if (activeType === "PRODUCTS") {
+      if (activeType === "PRODUCTS") {
         await API.delete(`/admin/products/${id}`);
+      } else if (activeType === "CONTACT") {
+        await API.delete(`/admin/contact/${id}`);
       } else {
         await API.delete(`/admin/forms/${id}`);
       }
@@ -115,15 +114,15 @@ const AdminDashboard = () => {
     }
   };
 
-  // Render Data
+  // Render general forms
   const renderData = (form) => {
     if (activeType === "PRODUCTS") {
       return (
         <div>
-          <b>Title:</b> {form.title} <br />
-          <b>Price:</b> {form.price} <br />
-          <b>Category:</b> {form.category} <br />
-          <b>Link:</b> <a href={form.link} target="_blank">Amazon Link</a>
+          <b>{form.title}</b> <br />
+          ₹ {form.price} <br />
+          Category: {form.category} <br />
+          <a href={form.link} target="_blank">Amazon Link</a>
         </div>
       );
     }
@@ -208,7 +207,7 @@ const AdminDashboard = () => {
       <main className="admin-main">
         <h2>{TABS.find((t) => t.type === activeType)?.label}</h2>
 
-        {/* ⭐ ADD PRODUCT FORM */}
+        {/* PRODUCT ADD FORM */}
         {activeType === "PRODUCTS" && (
           <div className="product-form-box">
             <h3>Add New Product</h3>
@@ -256,16 +255,70 @@ const AdminDashboard = () => {
 
               <button type="submit">Add Product</button>
             </form>
+
+            <h3 style={{ marginTop: "30px" }}>Product List</h3>
+
+            {forms.length === 0 ? (
+              <p>No products added yet.</p>
+            ) : (
+              <table className="admin-table">
+                <thead>
+                  <tr>
+                    <th>Image</th>
+                    <th>Details</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {forms.map((p) => (
+                    <tr key={p._id}>
+                      <td>
+                        <img
+                          src={p.img}
+                          alt={p.title}
+                          style={{ width: "80px", borderRadius: "8px" }}
+                        />
+                      </td>
+
+                      <td>
+                        <b>{p.title}</b> <br />
+                        ₹ {p.price} <br />
+                        Category: {p.category}
+                      </td>
+
+                      <td>
+                        <button
+                          onClick={() => {
+                            setSelectedForm(p);
+                            setShowModal(true);
+                          }}
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          className="danger"
+                          onClick={() => deleteForm(p._id)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
         )}
 
-        {/* TABLE DISPLAY */}
-        {activeType !== "PRODUCTS" && loading ? (
-          <p>Loading...</p>
-        ) : forms.length === 0 ? (
-          <p>No submissions yet.</p>
-        ) : (
-          activeType !== "PRODUCTS" && (
+        {/* ---------------------- GENERAL FORMS (PAN, JOB, ETC.) ---------------------- */}
+        {activeType !== "PRODUCTS" &&
+          (loading ? (
+            <p>Loading...</p>
+          ) : forms.length === 0 ? (
+            <p>No submissions yet.</p>
+          ) : (
             <table className="admin-table">
               <thead>
                 <tr>
@@ -283,13 +336,23 @@ const AdminDashboard = () => {
                     <td>{renderData(f)}</td>
                     <td>{f.status || "new"}</td>
                     <td>
-                      <button onClick={() => setSelectedForm(f) || setShowModal(true)}>
+                      <button
+                        onClick={() => {
+                          setSelectedForm(f);
+                          setShowModal(true);
+                        }}
+                      >
                         View
                       </button>
+
                       <button onClick={() => updateStatus(f._id, "processed")}>
                         Processed
                       </button>
-                      <button className="danger" onClick={() => deleteForm(f._id)}>
+
+                      <button
+                        className="danger"
+                        onClick={() => deleteForm(f._id)}
+                      >
                         Delete
                       </button>
                     </td>
@@ -297,9 +360,82 @@ const AdminDashboard = () => {
                 ))}
               </tbody>
             </table>
-          )
-        )}
+          ))}
       </main>
+
+      {/* ---------------------- EDIT PRODUCT MODAL ---------------------- */}
+      {showModal && selectedForm && activeType === "PRODUCTS" && (
+        <div className="modal-overlay">
+          <div className="modal-box">
+
+            <h3>Edit Product</h3>
+
+            <input
+              type="text"
+              value={selectedForm.title}
+              onChange={(e) =>
+                setSelectedForm({ ...selectedForm, title: e.target.value })
+              }
+            />
+
+            <input
+              type="text"
+              value={selectedForm.price}
+              onChange={(e) =>
+                setSelectedForm({ ...selectedForm, price: e.target.value })
+              }
+            />
+
+            <input
+              type="text"
+              value={selectedForm.img}
+              onChange={(e) =>
+                setSelectedForm({ ...selectedForm, img: e.target.value })
+              }
+            />
+
+            <input
+              type="text"
+              value={selectedForm.category}
+              onChange={(e) =>
+                setSelectedForm({ ...selectedForm, category: e.target.value })
+              }
+            />
+
+            <input
+              type="text"
+              value={selectedForm.link}
+              onChange={(e) =>
+                setSelectedForm({ ...selectedForm, link: e.target.value })
+              }
+            />
+
+            <button
+              onClick={async () => {
+                try {
+                  await API.put(
+                    `/admin/products/${selectedForm._id}`,
+                    selectedForm
+                  );
+
+                  alert("Product Updated!");
+                  setShowModal(false);
+                  fetchForms();
+                } catch (err) {
+                  console.error("❌ Update Error:", err);
+                  alert("Failed to update product");
+                }
+              }}
+            >
+              Update Product
+            </button>
+
+            <button className="danger" onClick={() => setShowModal(false)}>
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

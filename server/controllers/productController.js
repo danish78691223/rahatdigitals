@@ -24,6 +24,22 @@ export const getProducts = async (req, res) => {
   }
 };
 
+// UPDATE PRODUCT
+export const updateProduct = async (req, res) => {
+  try {
+    const updated = await Product.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+
+    res.json({ success: true, updated });
+  } catch (err) {
+    console.error("❌ Update Product Error:", err);
+    res.status(500).json({ success: false, error: "Failed to update product" });
+  }
+};
+
 // DELETE PRODUCT
 export const deleteProduct = async (req, res) => {
   try {

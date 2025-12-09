@@ -28,42 +28,44 @@ const Shop = () => {
 
   return (
     <div className="shop-page">
-      <h1 className="shop-title">Rahat Digitals Shop</h1>
-      <p className="shop-sub">
-        Buy Best Amazon Products Through Our Affiliate Store
-      </p>
+      <div className="shop-container">
+        <h1 className="shop-title">Rahat Digitals Shop</h1>
+        <p className="shop-sub">
+          Buy Best Amazon Products Through Our Affiliate Store
+        </p>
 
-      {/* Filters */}
-      <div className="shop-filters">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            className={category === cat ? "filter-btn active" : "filter-btn"}
-            onClick={() => setCategory(cat)}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
-
-      {/* Products */}
-      <div className="product-grid">
-        {filtered.map((p) => (
-          <div className="product-card" key={p._id}>
-            <img src={p.img} alt={p.title} />
-            <h3>{p.title}</h3>
-            <p className="price">{p.price}</p>
-
-            <a
-              href={p.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="buy-btn"
+        {/* Filters */}
+        <div className="shop-filters">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              className={category === cat ? "filter-btn active" : "filter-btn"}
+              onClick={() => setCategory(cat)}
             >
-              Buy on Amazon
-            </a>
-          </div>
-        ))}
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        {/* Products */}
+        <div className="product-grid">
+          {filtered.map((p) => (
+            <div className="product-card" key={p._id}>
+              <img src={p.img} alt={p.title} />
+              <h3>{p.title}</h3>
+              <p className="price">{p.price}</p>
+
+              <a
+                href={p.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="buy-btn"
+              >
+                Buy on Amazon
+              </a>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

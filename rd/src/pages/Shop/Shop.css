@@ -1,109 +1,140 @@
+/* ------------------------ PAGE ------------------------ */
 .shop-page {
-  padding: 50px 30px;
-  background: #f6f9ff;
+  padding: 40px 20px;
+  background: #f3f6ff;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+/* Limit width */
+.shop-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* ------------------------ TITLE ------------------------ */
 .shop-title {
   text-align: center;
-  font-size: 36px;
+  font-size: 38px;
   font-weight: 800;
   color: #002970;
+  margin-bottom: 5px;
 }
 
 .shop-sub {
   text-align: center;
-  color: #444;
-  margin-bottom: 30px;
-  font-size: 18px;
+  color: #666;
+  font-size: 17px;
+  margin-bottom: 25px;
 }
 
-/* ---------- CATEGORY FILTERS ---------- */
+/* ------------------------ FILTER BUTTONS ------------------------ */
 .shop-filters {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .filter-btn {
-  padding: 10px 20px;
-  margin: 0 8px;
-  border-radius: 8px;
+  padding: 8px 16px;
+  border-radius: 20px;
   border: 1px solid #0048ff;
   background: white;
   color: #0048ff;
-  font-size: 16px;
   cursor: pointer;
-  transition: 0.2s;
+  font-size: 15px;
+  font-weight: 600;
+  transition: 0.25s ease;
 }
 
-.filter-btn.active,
+.filter-btn.active {
+  background: #0048ff;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 72, 255, 0.3);
+}
+
 .filter-btn:hover {
   background: #0048ff;
-  color: white;
+  color: #fff;
 }
 
-/* ---------- PRODUCT GRID ---------- */
+/* ------------------------ PRODUCT GRID ------------------------ */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 25px;
-  padding: 20px 0;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+  width: 100%;
+  max-width: 1200px;
 }
 
-/* ---------- PRODUCT CARD ---------- */
+/* ------------------------ PRODUCT CARD ------------------------ */
 .product-card {
   background: white;
-  border-radius: 14px;
-  padding: 18px;
+  border-radius: 16px;
+  padding: 20px;
   text-align: center;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-  transition: 0.2s;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border: 1px solid #e8ebff;
 }
 
 .product-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
 }
 
 .product-card img {
   width: 100%;
-  height: 180px;
+  height: 200px;
   object-fit: contain;
-  border-radius: 10px;
+  border-radius: 8px;
+  margin-bottom: 12px;
 }
 
+/* ------------------------ PRODUCT TEXT ------------------------ */
 .product-card h3 {
-  font-size: 18px;
+  font-size: 17px;
+  font-weight: 700;
   color: #00308f;
-  margin: 10px 0;
+  margin-bottom: 8px;
 }
 
 .price {
   font-size: 20px;
-  font-weight: 700;
+  font-weight: bold;
   color: #009432;
+  margin-bottom: 12px;
 }
 
+/* ------------------------ BUTTON ------------------------ */
 .buy-btn {
   display: inline-block;
-  margin-top: 10px;
-  padding: 10px 14px;
+  padding: 10px 16px;
   background: #ff9900;
   color: black;
   font-weight: bold;
   border-radius: 8px;
   text-decoration: none;
-  transition: 0.2s;
+  transition: 0.3s ease;
+  width: 70%;
 }
 
 .buy-btn:hover {
   background: #e68a00;
 }
 
-/* Responsive */
+/* ------------------------ RESPONSIVE ------------------------ */
 @media (max-width: 600px) {
   .shop-title {
-    font-size: 28px;
+    font-size: 30px;
   }
+
   .product-card img {
     height: 150px;
   }
