@@ -1,44 +1,21 @@
-import Brevo from "@getbrevo/brevo";
+import { Resend } from "resend";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-// INIT BREVO CLIENT
-const brevo = new Brevo.TransactionalEmailsApi();
-brevo.setApiKey(
-  Brevo.TransactionalEmailsApiApiKeys.apiKey,
-  process.env.BREVO_API_KEY
-);
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-// SEND EMAIL USING BREVO API
 export const sendFormEmail = async ({ subject, html }) => {
   try {
-    const emailData = {
-      sender: { 
-        name: "Rahat Digital's", 
-        email: process.env.SENDER_EMAIL
-      },
-      to: [
-        { email: process.env.RECEIVER_EMAIL }
-      ],
+    const response = await resend.emails.send({
+      from: "Rahat Digitals <onboarding@resend.dev>", 
+      to: process.env.RECEIVER_EMAIL, 
       subject,
-      htmlContent: html.replace(/undefined/g, "N/A"),
-    };
+      html,
+    });
 
-    const response = await brevo.sendTransacEmail(emailData);
-
-    // FIX: Log correct message Id
-    const messageId =
-      response?.messageId ||
-      response?.["messageId"] ||
-      response?.["message-id"] ||
-      response?.body?.messageId ||
-      response?.body?.["message-id"] ||
-      "No message ID returned";
-
-    console.log("📨 Email Sent Successfully:", messageId);
-
-  } catch (err) {
-    console.error("❌ BREVO EMAIL API ERROR:", err?.message || err);
+    console.log("Email sent:", response);
+  } catch (error) {
+    console.error("Email error:", error);
   }
 };
