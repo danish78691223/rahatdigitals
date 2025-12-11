@@ -23,8 +23,6 @@ const Navbar = () => {
       <div className={open ? "nav-right show" : "nav-right"}>
         <a href="/" onClick={() => setOpen(false)}>Home</a>
         <a href="/services" onClick={() => setOpen(false)}>Services</a>
-
-        {/* ⭐ NEW SHOP BUTTON */}
         <a href="/shop" onClick={() => setOpen(false)}>Shop</a>
 
         <a href="/about" onClick={() => setOpen(false)}>About</a>

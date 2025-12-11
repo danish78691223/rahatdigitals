@@ -5,6 +5,7 @@ import "./FormStyles.css";
 const VoterIdForm = () => {
   const [fields, setFields] = useState({
     fullName: "",
+    fatherName: "",
     dob: "",
     phone: "",
     address: "",
@@ -56,6 +57,9 @@ const VoterIdForm = () => {
       <h2>Voter ID Registration</h2>
 
       <input name="fullName" placeholder="Full Name" onChange={inputHandler} />
+      <span className="error">{errors.fullName}</span>
+
+      <input name="fatherName" placeholder="Father Name" onChange={inputHandler} />
       <span className="error">{errors.fullName}</span>
 
       <input type="date" name="dob" onChange={inputHandler} />

@@ -125,78 +125,84 @@ const AdminDashboard = () => {
   };
 
   // Render Fields
-  const renderData = (form) => {
-    if (activeType === "PRODUCTS") {
-      return (
-        <div>
-          <b>{form.title}</b> <br />
-          ₹ {form.price} <br />
-          Category: {form.category} <br />
-          <a href={form.link} target="_blank" rel="noopener noreferrer">
-            Amazon Link
-          </a>
-        </div>
-      );
-    }
+const renderData = (form) => {
+  const d = form.data || {}; 
 
-    if (activeType === "CONTACT") {
-      return (
-        <div>
-          <b>Name:</b> {form.name} <br />
-          <b>Email:</b> {form.email} <br />
-          <b>Phone:</b> {form.phone} <br />
-          <b>Message:</b> {form.message}
-        </div>
-      );
-    }
+  if (activeType === "PRODUCTS") {
+    return (
+      <div>
+        <b>{form.title}</b> <br />
+        ₹ {form.price} <br />
+        Category: {form.category} <br />
+        <a href={form.link} target="_blank" rel="noreferrer">Amazon Link</a>
+      </div>
+    );
+  }
 
-    if (activeType === "JOB") {
-      return (
-        <div>
-          <b>Full Name:</b> {form.data.fullName} <br />
-          <b>Email:</b> {form.data.email} <br />
-          <b>Phone:</b> {form.data.phone} <br />
-          <b>Qualification:</b> {form.data.qualification} <br />
-          <b>Job Type:</b> {form.data.jobType}
-        </div>
-      );
-    }
+  if (activeType === "CONTACT") {
+    return (
+      <div>
+        <b>Name:</b> {form.name} <br />
+        <b>Email:</b> {form.email} <br />
+        <b>Phone:</b> {form.phone} <br />
+        <b>Message:</b> {form.message}
+      </div>
+    );
+  }
 
-    if (activeType === "PAN") {
-      return (
-        <div>
-          <b>Name:</b> {form.data.name} <br />
-          <b>DOB:</b> {form.data.dob} <br />
-          <b>Phone:</b> {form.data.phone} <br />
-          <b>Address:</b> {form.data.address}
-        </div>
-      );
-    }
+  // ⭐ JOB FORMS (use fullName)
+  if (activeType === "JOB") {
+    return (
+      <div>
+        <b>Full Name:</b> {d.fullName || "N/A"} <br />
+        <b>Email:</b> {d.email || "N/A"} <br />
+        <b>Phone:</b> {d.phone || "N/A"} <br />
+        <b>Qualification:</b> {d.qualification || "N/A"} <br />
+        <b>Job Type:</b> {d.jobType || "N/A"}
+      </div>
+    );
+  }
 
-    if (activeType === "VOTER") {
-      return (
-        <div>
-          <b>Name:</b> {form.data.name} <br />
-          <b>Father Name:</b> {form.data.fatherName} <br />
-          <b>DOB:</b> {form.data.dob} <br />
-          <b>Address:</b> {form.data.address}
-        </div>
-      );
-    }
+  // ⭐ PAN CARD (use fullName instead of name)
+  if (activeType === "PAN") {
+    return (
+      <div>
+        <b>Name:</b> {d.fullName || "N/A"} <br />
+        <b>DOB:</b> {d.dob || "N/A"} <br />
+        <b>Phone:</b> {d.phone || "N/A"} <br />
+        <b>Address:</b> {d.address || "N/A"}
+      </div>
+    );
+  }
 
-    if (activeType === "PASSPORT") {
-      return (
-        <div>
-          <b>Name:</b> {form.data.name} <br />
-          <b>DOB:</b> {form.data.dob} <br />
-          <b>Phone:</b> {form.data.phone} <br />
-          <b>Passport Type:</b> {form.data.passportType}
-        </div>
-      );
-    }
+  // ⭐ VOTER ID
+  if (activeType === "VOTER") {
+    return (
+      <div>
+        <b>Name:</b> {d.fullName || d.name || "N/A"} <br />
+        <b>Father Name:</b> {d.fatherName || "N/A"} <br />
+        <b>DOB:</b> {d.dob || "N/A"} <br />
+        <b>Address:</b> {d.address || "N/A"}
+      </div>
+    );
+  }
 
-    return <pre>{JSON.stringify(form.data, null, 2)}</pre>;
-  };
+  // ⭐ PASSPORT
+  if (activeType === "PASSPORT") {
+    return (
+      <div>
+        <b>Name:</b> {d.fullName || "N/A"} <br />
+        <b>DOB:</b> {d.dob || "N/A"} <br />
+        <b>Phone:</b> {d.phone || "N/A"} <br />
+        <b>Passport Type:</b> {d.passportType || "N/A"}
+      </div>
+    );
+  }
+
+  return <pre>{JSON.stringify(form, null, 2)}</pre>;
+};
+
+
 
   return (
     <div className="admin-layout">
