@@ -1,28 +1,23 @@
-import nodemailer from "nodemailer";
-import dotenv from "dotenv";
-
-dotenv.config();
-
-export const sendFormEmail = async ({ subject, html }) => {
+// SEND EMAIL USING WEB3FORMS (no SMTP needed)
+const sendFormEmail = async (fields) => {
   try {
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.GMAIL_USER,  // Your Gmail
-        pass: process.env.GMAIL_APP_PASS, // App Password
-      },
-    });
-
-    const mailOptions = {
-      from: `"Rahat Digitals" <${process.env.GMAIL_USER}>`,
-      to: "rahatdigitals@gmail.com",  // Receiver
-      subject,
-      html,
+    const formData = {
+      access_key: process.env.WEB3FORMS_KEY, 
+      subject: "New Form Submission - Rahat Digital's",
+      from_name: "Rahat Digital's Website",
+      ...fields,
     };
 
-    const info = await transporter.sendMail(mailOptions);
-    console.log("📧 Email Sent:", info.response);
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
+    const result = await response.json();
+    console.log("Email sent:", result);
+
   } catch (err) {
-    console.error("❌ Email Sending Error:", err);
+    console.error("❌ Web3Forms Email Error:", err);
   }
 };
