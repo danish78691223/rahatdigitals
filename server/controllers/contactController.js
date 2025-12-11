@@ -1,4 +1,4 @@
-import { sendFormEmail } from "../utils/emailSender.js";
+import sendFormEmail from "../utils/emailSender.js";
 import ContactMessage from "../models/ContactMessage.js";
 
 export const sendContactMessage = async (req, res) => {
