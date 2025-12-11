@@ -1,23 +1,30 @@
-// SEND EMAIL USING WEB3FORMS (no SMTP needed)
-const sendFormEmail = async (fields) => {
+import axios from "axios";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const WEB3_URL = "https://api.web3forms.com/submit";
+
+/**
+ * Sends email through Web3Forms API
+ * @param {string} subject
+ * @param {object} fields
+ */
+const sendFormEmail = async (subject, fields) => {
   try {
     const formData = {
-      access_key: process.env.WEB3FORMS_KEY, 
-      subject: "New Form Submission - Rahat Digital's",
-      from_name: "Rahat Digital's Website",
+      access_key: process.env.WEB3FORMS_ACCESS_KEY, // REQUIRED
+      subject,
       ...fields,
     };
 
-    const response = await fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
+    const response = await axios.post(WEB3_URL, formData);
 
-    const result = await response.json();
-    console.log("Email sent:", result);
-
-  } catch (err) {
-    console.error("❌ Web3Forms Email Error:", err);
+    console.log("📨 Email API Response:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("❌ Email Sending Error (Web3Forms):", error.response?.data || error);
   }
 };
+
+export default sendFormEmail;
