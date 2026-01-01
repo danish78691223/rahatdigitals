@@ -1,22 +1,95 @@
 import React from "react";
 import "./VoterId.css";
 import VoterIdForm from "../../forms/VoterIdForm";
+import { motion } from "framer-motion";
+import voterImg from "../../assets/images/voterid.png";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0 },
+};
 
 const VoterId = () => {
   return (
     <div className="service-page">
-      <div className="service-header">
-        <h1>Voter ID Registration New/Update Inquiry</h1>
-        <p>Fill the form to create or update your Voter ID.</p>
-        <p>The Indian Voter ID card, officially called the Elector’s Photo Identity Card (EPIC), is issued by the Election Commission of India to citizens who are 18 years or older and eligible to vote. It serves primarily as a document to prove your identity at polling booths during municipal, state, and national elections. Besides elections, the Voter ID is widely accepted as proof of identity, age, and address for many services, including getting SIM cards or applying for some other government documents.</p>
-        <p>To obtain a Voter ID, an eligible citizen usually fills Form‑6 (now often online via NVSP or state portals) and provides proof of age, nationality, and residence such as Aadhaar, PAN, passport, or educational certificates. The card is generally issued after verification of the documents and residence by electoral officials, and your name is then added to the electoral roll of your constituency. People with certain legal disqualifications, like those of “unsound mind” declared by a court or those convicted of specified election‑related offenses, may be barred from voting.</p>
-        <p>The Voter ID can also function as a limited travel document for Indian citizens travelling to Nepal and Bhutan by land or air under existing bilateral arrangements. Keeping voter details updated (address changes, name corrections, etc.) is important so that you vote in the correct constituency and your ID matches other documents. Modern voter services also provide digital versions or search tools to verify your name on the electoral roll online, which helps avoid last‑minute problems on polling day.</p>
 
-        <h3>Fill The Given Form For More Details</h3>
-        <h4> We Will Contact You Soon...</h4>
+      {/* HEADER */}
+      <motion.div
+        className="service-header"
+        initial="hidden"
+        animate="visible"
+        variants={fadeUp}
+        transition={{ duration: 0.7 }}
+      >
+        <h1>Voter ID Registration / Update</h1>
+        <p className="subtitle">
+          Fill the form to create or update your Voter ID.
+        </p>
+      </motion.div>
+
+      {/* INFO + IMAGE */}
+      <div className="service-info">
+
+        {/* TEXT */}
+        <motion.div
+          className="service-text"
+          initial={{ opacity: 0, x: -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <p>
+            The Indian Voter ID card, officially known as the Elector’s Photo
+            Identity Card (EPIC), is issued by the Election Commission of India
+            to citizens aged 18 years and above.
+          </p>
+
+          <p>
+            It is primarily used to verify identity at polling stations during
+            elections and is also widely accepted as proof of identity, age,
+            and address for various services.
+          </p>
+
+          <p>
+            Voter details can be updated for address changes, name corrections,
+            or constituency transfers to ensure accurate electoral records.
+          </p>
+
+          <div className="service-points">
+            <span>✔ New Voter ID</span>
+            <span>✔ Address Update</span>
+            <span>✔ Name Correction</span>
+            <span>✔ Electoral Roll Check</span>
+          </div>
+        </motion.div>
+
+        {/* IMAGE */}
+        <motion.div
+          className="service-image"
+          initial={{ opacity: 0, x: 40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <img src={voterImg} alt="Voter ID Illustration" />
+        </motion.div>
+
       </div>
 
-      <VoterIdForm />
+      {/* FORM */}
+      <motion.div
+        className="form-section"
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+      >
+        <h3>Fill the Form for More Details</h3>
+        <p className="form-note">We will contact you soon.</p>
+
+        <VoterIdForm />
+      </motion.div>
+
     </div>
   );
 };

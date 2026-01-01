@@ -1,5 +1,12 @@
 import React, { useState } from "react";
 import "./Aadhar.css";
+import { motion } from "framer-motion";
+import aadharImg from "../../assets/images/aadhar.png";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0 },
+};
 
 const Aadhar = () => {
   const [form, setForm] = useState({
@@ -49,34 +56,81 @@ const Aadhar = () => {
 
   return (
     <div className="service-page">
-      <div className="service-header">
-        <h1>Aadhar Services Inquiry</h1>
 
-        <p>
+      {/* HEADER */}
+      <motion.div
+        className="service-header"
+        initial="hidden"
+        animate="visible"
+        variants={fadeUp}
+        transition={{ duration: 0.7 }}
+      >
+        <h1>Aadhaar Services</h1>
+        <p className="subtitle">
           Update Aadhaar details, make corrections or download Aadhaar card.
         </p>
-        <p>
-          Aadhaar is a 12-digit unique identification number issued by UIDAI,
-          widely used for KYC, bank account opening, SIM verification, and
-          government schemes.
-        </p>
-        <p>
-          Aadhaar is proof of residency, not citizenship. It includes demographic
-          and biometric data and can be updated when needed.
-        </p>
-        <p>
-          Linking Aadhaar with PAN, bank accounts, and mobile numbers is often
-          mandatory. Keep your Aadhaar-linked mobile number updated for OTP
-          services.
-        </p>
+      </motion.div>
 
-        <h3>For More Details Fill The Form Below</h3>
-        <h2>We Will Contact You Soon</h2>
+      {/* INFO + IMAGE */}
+      <div className="service-info">
+
+        {/* TEXT */}
+        <motion.div
+          className="service-text"
+          initial={{ opacity: 0, x: -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <p>
+            Aadhaar is a 12-digit unique identification number issued by UIDAI
+            and is widely used for KYC, banking, SIM verification, and accessing
+            government services.
+          </p>
+
+          <p>
+            Aadhaar acts as proof of residency, not citizenship. It contains
+            demographic and biometric information that can be updated when
+            required.
+          </p>
+
+          <p>
+            Linking Aadhaar with PAN, bank accounts, and mobile numbers is often
+            mandatory. Keeping your Aadhaar-linked mobile number active is
+            important for OTP-based services.
+          </p>
+
+          <div className="service-points">
+            <span>✔ Aadhaar Update</span>
+            <span>✔ Name / Address Correction</span>
+            <span>✔ Mobile Linking</span>
+            <span>✔ e-Aadhaar Download</span>
+          </div>
+        </motion.div>
+
+        {/* IMAGE */}
+        <motion.div
+          className="service-image"
+          initial={{ opacity: 0, x: 40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <img src={aadharImg} alt="Aadhaar Services Illustration" />
+        </motion.div>
+
       </div>
 
-      {/* ⭐ Contact Form Added Here */}
-      <div className="aadhar-form-box">
-        <h2>Contact Us for Aadhaar Services</h2>
+      {/* FORM */}
+      <motion.div
+        className="form-section"
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+      >
+        <h3>For More Details Fill the Form Below</h3>
+        <p className="form-note">We will contact you soon.</p>
 
         <form className="contact-form" onSubmit={handleSubmit}>
           <input
@@ -119,11 +173,10 @@ const Aadhar = () => {
             {loading ? "Sending..." : "Send Message"}
           </button>
 
-          {success && (
-            <p style={{ marginTop: "10px", color: "green" }}>{success}</p>
-          )}
+          {success && <p className="success-msg">{success}</p>}
         </form>
-      </div>
+      </motion.div>
+
     </div>
   );
 };

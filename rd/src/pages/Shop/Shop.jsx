@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import API from "../../api/axios";
 import "./Shop.css";
+import { motion } from "framer-motion";
 
 const Shop = () => {
   const [category, setCategory] = useState("ALL");
@@ -15,7 +16,6 @@ const Shop = () => {
         console.error("❌ Failed to load products:", err);
       }
     };
-
     loadProducts();
   }, []);
 
@@ -29,29 +29,52 @@ const Shop = () => {
   return (
     <div className="shop-page">
       <div className="shop-container">
-        <h1 className="shop-title">Rahat Digitals Shop</h1>
-        <p className="shop-sub">
-          Buy Best Amazon Products Through Our Affiliate Store
-        </p>
 
-        {/* Filters */}
+        {/* HEADER */}
+        <motion.div
+          className="shop-header"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h1 className="shop-title">Rahat Digitals Shop</h1>
+          <p className="shop-sub">
+            Hand-picked Amazon products • Trusted deals • Best prices
+          </p>
+        </motion.div>
+
+        {/* FILTERS */}
         <div className="shop-filters">
           {categories.map((cat) => (
-            <button
+            <motion.button
               key={cat}
-              className={category === cat ? "filter-btn active" : "filter-btn"}
+              whileTap={{ scale: 0.92 }}
+              className={
+                category === cat ? "filter-btn active" : "filter-btn"
+              }
               onClick={() => setCategory(cat)}
             >
               {cat}
-            </button>
+            </motion.button>
           ))}
         </div>
 
-        {/* Products */}
+        {/* PRODUCTS */}
         <div className="product-grid">
-          {filtered.map((p) => (
-            <div className="product-card" key={p._id}>
-              <img src={p.img} alt={p.title} />
+          {filtered.map((p, index) => (
+            <motion.div
+              key={p._id}
+              className="product-card"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.08, duration: 0.45 }}
+              viewport={{ once: true }}
+              whileHover={{ y: -10 }}
+            >
+              <div className="img-wrap">
+                <img src={p.img} alt={p.title} />
+              </div>
+
               <h3>{p.title}</h3>
               <p className="price">{p.price}</p>
 
@@ -61,9 +84,9 @@ const Shop = () => {
                 rel="noopener noreferrer"
                 className="buy-btn"
               >
-                Buy on Amazon
+                Buy on Amazon →
               </a>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

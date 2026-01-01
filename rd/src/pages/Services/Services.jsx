@@ -1,45 +1,60 @@
 import React from "react";
 import "./Services.css";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  FaIdCard,
+  FaPassport,
+  FaVoteYea,
+  FaBriefcase,
+  FaFingerprint,
+  FaFileAlt,
+} from "react-icons/fa";
 
 const Services = () => {
   const navigate = useNavigate();
 
   const servicesList = [
     {
-      title: "PAN Card Apply / Update Inquiry",
-      desc: "Apply for a new PAN card or update existing information.",
-      icon: "📇",
+      title: "PAN Card Apply / Update",
+      desc: "Apply for new PAN or update existing details.",
+      icon: <FaIdCard />,
+      color: "#0066ff",
       link: "/apply-pan-card",
     },
     {
-      title: "Passport Services Inquiry",
-      desc: "Passport application, renewal, and correction support.",
-      icon: "🛂",
+      title: "Passport Services",
+      desc: "New passport, renewal & correction assistance.",
+      icon: <FaPassport />,
+      color: "#00a86b",
       link: "/passport-application",
     },
     {
-      title: "Voter ID Apply / Update Inquiry",
-      desc: "Create new Voter ID or update address/details.",
-      icon: "🗳️",
+      title: "Voter ID Services",
+      desc: "New Voter ID registration or updates.",
+      icon: <FaVoteYea />,
+      color: "#ff9800",
       link: "/voter-id",
     },
     {
-      title: "Job Application Forms Inquiry",
-      desc: "Government and private job form filling assistance.",
-      icon: "📄",
+      title: "Job Application Forms",
+      desc: "Government & private job form support.",
+      icon: <FaBriefcase />,
+      color: "#8e44ad",
       link: "/job-application",
     },
     {
-      title: "Aadhar Related Services Inquiry",
-      desc: "Support for Aadhar updates, corrections, and downloads.",
-      icon: "🆔",
+      title: "Aadhaar Services",
+      desc: "Aadhaar update, correction & download help.",
+      icon: <FaFingerprint />,
+      color: "#e91e63",
       link: "/aadhar-services",
     },
     {
-      title: "Government Certificates Inquiry",
-      desc: "Income, Caste, Domicile and other certificate form services.",
-      icon: "📑",
+      title: "Govt Certificates",
+      desc: "Income, Caste, Domicile & other certificates.",
+      icon: <FaFileAlt />,
+      color: "#0097a7",
       link: "/government-certificates",
     },
   ];
@@ -47,28 +62,40 @@ const Services = () => {
   return (
     <div className="services-page">
 
-      {/* Header */}
-      <div className="service-header">
+      {/* HEADER */}
+      <motion.div
+        className="service-header"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
         <h1>Our Services</h1>
-        <p>We provide a wide range of CSC and Digital Seva services.</p>
-      </div>
+        <p>
+          Trusted CSC & Digital Seva solutions — fast, secure and reliable.
+        </p>
+      </motion.div>
 
-      {/* Services Grid */}
+      {/* GRID */}
       <div className="services-grid">
         {servicesList.map((service, index) => (
-          <div className="service-box" key={index}>
-            <div className="service-icon">{service.icon}</div>
+          <motion.div
+            key={index}
+            className="service-card-modern"
+            style={{ "--accent": service.color }}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.12, duration: 0.5 }}
+            viewport={{ once: true }}
+            whileHover={{ scale: 1.04 }}
+            onClick={() => navigate(service.link)}
+          >
+            <div className="icon-wrap">{service.icon}</div>
+
             <h3>{service.title}</h3>
             <p>{service.desc}</p>
 
-            <button
-              className="service-btn"
-              onClick={() => navigate(service.link)}
-            >
-              Learn More
-            </button>
-
-          </div>
+            <span className="cta-text">Explore Service →</span>
+          </motion.div>
         ))}
       </div>
     </div>
